@@ -1,5 +1,6 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
+const { User } = require('../Models/userModels/UserModels');
 
 const createToken = async (req, res, next) => {
   const {
@@ -16,9 +17,12 @@ const createToken = async (req, res, next) => {
       httpOnly: true,
       expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000) //! 3 days
     });
+    const user = await User.findOne({email})
+    // console.log('generate token',{user});
     res.status(201).json({
       message: 'jwt ',
-      token
+      token,
+      role: user.role,
     });
   } catch (error) {
     console.log(error);
