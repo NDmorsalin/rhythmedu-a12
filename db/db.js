@@ -27,6 +27,6 @@ async function connectDb() {
 
 module.exports = {
     connectDb,
-    database: client.db("khelaGor"),
+    database: client.db("rhythmEdu"),
     
 }

@@ -14,7 +14,7 @@ const createToken = async (req, res, next) => {
     // Set the token as a signed cookie
     res.cookie('token', token, {
       httpOnly: true,
-      expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000) // 3 days
+      expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000) //! 3 days
     });
     res.status(201).json({
       message: 'jwt ',
