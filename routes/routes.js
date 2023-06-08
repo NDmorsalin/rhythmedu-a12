@@ -4,6 +4,7 @@ const {
 } = require('../controller/tokenController');
 const verifyToken = require('../Middleware/verifyJwt.js');
 const { addUser, getAllUsers } = require('../controller/userController/userController');
+const { getAllClasses, addClasses } = require('../controller/classesController/classesController');
 
 const router = express.Router();
 
@@ -16,6 +17,9 @@ router.get('/', (req, res) => {
 
 // Users routes
 router.route('/users').get(getAllUsers).post(addUser)
+
+// Users Classes
+router.route('/classes').get(getAllClasses).post(verifyToken, addClasses)
 
 
 // create jwt
