@@ -39,17 +39,20 @@ const addClasses = async (req, res, next) => {
         availableSeats,
         price,
         status,
-        feedback } = req.body
+        feedback ,
+        enrolledStudents
+    } = req.body
 
     const classesInfo = {
         className,
         classImg,
         instructorName,
         instructorEmail,
-        availableSeats,
-        price,
+        availableSeats: parseInt(availableSeats),
+        price: parseFloat(price),
         status,
-        feedback
+        feedback,
+        enrolledStudents:parseInt(enrolledStudents)
     }
     try {
 
