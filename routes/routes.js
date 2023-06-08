@@ -19,7 +19,8 @@ router.get('/', (req, res) => {
 router.route('/users').get(getAllUsers).post(addUser)
 
 // Users Classes
-router.route('/classes').get(getAllClasses).post(verifyToken, addClasses)
+router.route('/classes').get(getAllClasses)
+router.route('/myClasses').get(verifyToken,getAllClasses).post(verifyToken, addClasses)
 
 
 // create jwt
