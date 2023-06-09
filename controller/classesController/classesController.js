@@ -19,8 +19,10 @@ const getAllClasses = async (req, res, next) => {
 // get individual instructor classes
 const getInstructorClasses = async (req, res, next) => {
     const email = req.email
+    // console.log(email);
     try {
-        const instructorClasses = await Classes.find({ email }).toArray()
+        const instructorClasses = await Classes.find({ instructorEmail: email }).toArray()
+        // console.log({instructorClasses});
         res.status(200).json(instructorClasses)
     } catch (error) {
         res.status(500).json({
@@ -39,7 +41,7 @@ const addClasses = async (req, res, next) => {
         availableSeats,
         price,
         status,
-        feedback ,
+        feedback,
         enrolledStudents
     } = req.body
 
@@ -52,7 +54,7 @@ const addClasses = async (req, res, next) => {
         price: parseFloat(price),
         status,
         feedback,
-        enrolledStudents:parseInt(enrolledStudents)
+        enrolledStudents: parseInt(enrolledStudents)
     }
     try {
 
@@ -67,7 +69,41 @@ const addClasses = async (req, res, next) => {
 
 }
 
+// update classes
+const updateInstructorClasses = async (req, res, next) => {
+
+    const { className,
+        classImg,
+        availableSeats,
+        price,
+        classId,
+    } = req.body
+
+    const classesInfo = {
+        className,
+        classImg,
+        classId,
+        availableSeats: parseInt(availableSeats),
+        price: parseFloat(price),
+
+    }
+    try {
+
+        const updateInfo = await Classes.updateOne({ _id: new ObjectId(classId) }, { $set: classesInfo })
+        res.status(200).json(classesInfo)
+    } catch (error) {
+        res.status(500).json({
+            message: error.message,
+            error
+        })
+    }
+
+}
+
+
+
 module.exports = {
     getAllClasses,
-    addClasses, getInstructorClasses
+    addClasses, getInstructorClasses,
+    updateInstructorClasses
 }
