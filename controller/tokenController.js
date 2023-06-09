@@ -17,12 +17,12 @@ const createToken = async (req, res, next) => {
       httpOnly: true,
       expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000) //! 3 days
     });
-    const user = await User.findOne({email})
-    // console.log('generate token',{user});
+    const user = await User.findOne({ email })
+    // console.log('generate token', { user });
     res.status(201).json({
       message: 'jwt ',
       token,
-      role: user.role,
+      role: user.role || 'student',
     });
   } catch (error) {
     console.log(error);

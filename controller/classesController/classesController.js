@@ -99,9 +99,25 @@ const updateInstructorClasses = async (req, res, next) => {
 
 }
 
+// delete classes
+const deleteInstructorClasses = async (req, res, next) => {
+    const { classId } = req.params
+    console.log({ classId });
+    try {
+        const deleteInfo = await Classes.deleteOne({ _id: new ObjectId(classId) })
+        res.status(200).json(deleteInfo)
+    } catch (error) {
+        res.status(500).json({
+            message: error.message,
+            error
+        })
+    }
+
+}
 
 module.exports = {
     getAllClasses,
     addClasses, getInstructorClasses,
-    updateInstructorClasses
+    updateInstructorClasses,
+    deleteInstructorClasses
 }
