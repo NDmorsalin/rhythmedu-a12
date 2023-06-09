@@ -115,9 +115,31 @@ const deleteInstructorClasses = async (req, res, next) => {
 
 }
 
+
+
+// send feedback
+const sendFeedback = async (req, res, next) => {
+    const { feedback } = req.body
+    const {id} = req.params
+    console.log({ id, feedback });
+    try {
+        const updateInfo = await Classes.updateOne({ _id: new ObjectId(id) }, { $set: { feedback } })
+        res.status(200).json(updateInfo)
+    } catch (error) {
+        res.status(500).json({
+            message: error.message,
+            error
+        })
+
+    }
+}
+
+
 module.exports = {
     getAllClasses,
     addClasses, getInstructorClasses,
     updateInstructorClasses,
-    deleteInstructorClasses
+    deleteInstructorClasses,
+    sendFeedback
+
 }

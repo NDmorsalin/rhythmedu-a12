@@ -4,7 +4,7 @@ const {
 } = require('../controller/tokenController');
 const verifyToken = require('../Middleware/verifyJwt.js');
 const { addUser, getAllUsers, updateRole } = require('../controller/userController/userController');
-const { getAllClasses, addClasses, getInstructorClasses, updateInstructorClasses, deleteInstructorClasses } = require('../controller/classesController/classesController');
+const { getAllClasses, addClasses, getInstructorClasses, updateInstructorClasses, deleteInstructorClasses, sendFeedback, updateStatus } = require('../controller/classesController/classesController');
 const verifyRole = require('../Middleware/verifyRole');
 
 const router = express.Router();
@@ -17,18 +17,24 @@ router.get('/', (req, res) => {
 
 
 // Users routes
-router.route('/users').get(verifyToken, verifyRole('admin'),getAllUsers).post(addUser)
+router.route('/users').get(verifyToken, verifyRole('admin'), getAllUsers).post(addUser)
 
-router.route('/users/:id').put(verifyToken, verifyRole('admin'),updateRole)
+router.route('/admin/users/:id').put(verifyToken, verifyRole('admin'), updateRole)
 
 // Users Classes
 router.route('/classes').get(getAllClasses)
+
 router.route('/myClasses')
   .get(verifyToken, verifyRole('instructor'), getInstructorClasses)
-  .post(verifyToken, verifyRole('instructor'),  addClasses)
-  .put(verifyToken, verifyRole('instructor'),  updateInstructorClasses)
+  .post(verifyToken, verifyRole('instructor'), addClasses)
+  .put(verifyToken, verifyRole('instructor'), updateInstructorClasses)
 
-  router.route('/myClasses/:classId').delete(verifyToken, verifyRole('instructor'),  deleteInstructorClasses)
+router.route('/myClasses/:classId').delete(verifyToken, verifyRole('instructor'), deleteInstructorClasses)
+
+// admin change class info
+router.route('/admin/classes/:id')
+  .put(verifyToken, verifyRole('admin'), sendFeedback)
+  .patch(verifyToken, verifyRole('admin'), updateStatus)
 
 
 // create jwt
