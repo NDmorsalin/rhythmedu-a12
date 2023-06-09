@@ -3,7 +3,7 @@ const {
   createToken
 } = require('../controller/tokenController');
 const verifyToken = require('../Middleware/verifyJwt.js');
-const { addUser, getAllUsers } = require('../controller/userController/userController');
+const { addUser, getAllUsers, updateRole } = require('../controller/userController/userController');
 const { getAllClasses, addClasses, getInstructorClasses, updateInstructorClasses, deleteInstructorClasses } = require('../controller/classesController/classesController');
 const verifyRole = require('../Middleware/verifyRole');
 
@@ -17,7 +17,9 @@ router.get('/', (req, res) => {
 
 
 // Users routes
-router.route('/users').get(getAllUsers).post(addUser)
+router.route('/users').get(verifyToken, verifyRole('admin'),getAllUsers).post(addUser)
+
+router.route('/users/:id').put(verifyToken, verifyRole('admin'),updateRole)
 
 // Users Classes
 router.route('/classes').get(getAllClasses)

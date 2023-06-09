@@ -22,7 +22,7 @@ const createToken = async (req, res, next) => {
     res.status(201).json({
       message: 'jwt ',
       token,
-      role: user.role || 'student',
+      role: user?.role || 'student',
     });
   } catch (error) {
     console.log(error);
