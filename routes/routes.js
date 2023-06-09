@@ -5,6 +5,7 @@ const {
 const verifyToken = require('../Middleware/verifyJwt.js');
 const { addUser, getAllUsers } = require('../controller/userController/userController');
 const { getAllClasses, addClasses, getInstructorClasses, updateInstructorClasses } = require('../controller/classesController/classesController');
+const verifyRole = require('../Middleware/verifyRole');
 
 const router = express.Router();
 
@@ -20,7 +21,10 @@ router.route('/users').get(getAllUsers).post(addUser)
 
 // Users Classes
 router.route('/classes').get(getAllClasses)
-router.route('/myClasses').get(verifyToken, getInstructorClasses).post(verifyToken, addClasses).put(verifyToken, updateInstructorClasses)
+router.route('/myClasses')
+  .get(verifyToken, verifyRole('instructor'), getInstructorClasses)
+  .post(verifyToken, verifyRole('instructor'),  addClasses)
+  .put(verifyToken, verifyRole('instructor'),  updateInstructorClasses)
 
 
 // create jwt

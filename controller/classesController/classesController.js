@@ -71,7 +71,6 @@ const addClasses = async (req, res, next) => {
 
 // update classes
 const updateInstructorClasses = async (req, res, next) => {
-
     const { className,
         classImg,
         availableSeats,
@@ -99,7 +98,6 @@ const updateInstructorClasses = async (req, res, next) => {
     }
 
 }
-
 
 
 module.exports = {
