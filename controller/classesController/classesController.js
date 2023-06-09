@@ -116,11 +116,27 @@ const deleteInstructorClasses = async (req, res, next) => {
 }
 
 
+// update Status
+const updateStatus = async (req, res, next) => {
+    const { status } = req.body
+    const { id } = req.params
+    console.log({ id, status });
+    try {
+        const updateInfo = await Classes.updateOne({ _id: new ObjectId(id) }, { $set: { status } })
+        res.status(200).json(updateInfo)
+    } catch (error) {
+        res.status(500).json({
+            message: error.message,
+            error
+        })
+
+    }
+}
 
 // send feedback
 const sendFeedback = async (req, res, next) => {
     const { feedback } = req.body
-    const {id} = req.params
+    const { id } = req.params
     console.log({ id, feedback });
     try {
         const updateInfo = await Classes.updateOne({ _id: new ObjectId(id) }, { $set: { feedback } })
@@ -140,6 +156,7 @@ module.exports = {
     addClasses, getInstructorClasses,
     updateInstructorClasses,
     deleteInstructorClasses,
+    updateStatus,
     sendFeedback
 
 }
