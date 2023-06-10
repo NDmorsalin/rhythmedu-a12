@@ -9,7 +9,7 @@ const selectedClassSave = async (req, res, next) => {
         const selectedClass = await Classes.findOne({ _id: new ObjectId(classId) })
         selectedClass.studentId = studentId
 
-        const selectedSaveInfo  = await StudentsSelectedClass.insertOne(selectedClass)
+        const selectedSaveInfo = await StudentsSelectedClass.insertOne(selectedClass)
 
         res.status(200).json(selectedSaveInfo)
 
@@ -22,6 +22,13 @@ const selectedClassSave = async (req, res, next) => {
     }
 }
 
+const getStudentSelectedClasses = async (req, res, next) => {
+    const studentid = req.headers?.studentid
+    const selectedClass = await StudentsSelectedClass.find({ studentId: studentid }).toArray()
+    console.log(selectedClass);
+    res.json(selectedClass)
+}
+
 module.exports = {
-    selectedClassSave
+    selectedClassSave, getStudentSelectedClasses
 }

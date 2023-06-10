@@ -2,12 +2,22 @@ const { ObjectId } = require("mongodb");
 const {
     Classes
 } = require("../../Models/ClassesModels/ClassesModels");
+const StudentsSelectedClass = require("../../Models/Students/StudentsSelectedClass");
 
 //get all Classes
 const getAllClasses = async (req, res, next) => {
+    const studentId = req.headers.studentid
+
+
     try {
-        const allClasses = await Classes.find({}).toArray()
-        res.status(200).json(allClasses)
+        if (studentId) {
+
+            const allClasses = await Classes.find({}).toArray()
+            res.status(201).json(allClasses)
+        } else {
+            const allClasses = await Classes.find({}).toArray()
+            res.status(200).json(allClasses)
+        }
     } catch (error) {
         res.status(500).json({
             message: error.message,
