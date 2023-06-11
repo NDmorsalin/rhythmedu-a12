@@ -8,7 +8,7 @@ const verifyRole = (role) => {
            
             const userInfo = await User.findOne({ email })
             
-            if (role.toString() !== userInfo.role.toString()) {
+            if (role.toString() !== userInfo?.role?.toString()) {
                 return res.status(401).json({ message: 'You are not authorized' })
             }
             req.isVerified = true
