@@ -10,6 +10,8 @@ const selectedClassSave = async (req, res, next) => {
 
         const selectedClass = await Classes.findOne({ _id: new ObjectId(classId) }, { projection: { _id: 0 } })
         selectedClass.studentId = studentId
+        selectedClass.classId = classId
+        
         const selectedSaveInfo = await StudentsSelectedClass.insertOne(selectedClass)
 
         res.status(200).json(selectedSaveInfo)
