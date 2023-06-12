@@ -3,8 +3,8 @@ const {
   createToken
 } = require('../controller/tokenController');
 const verifyToken = require('../Middleware/verifyJwt.js');
-const { addUser, getAllUsers, updateRole } = require('../controller/userController/userController');
-const { getAllClasses, addClasses, getInstructorClasses, updateInstructorClasses, deleteInstructorClasses, sendFeedback, updateStatus } = require('../controller/classesController/classesController');
+const { addUser, getAllUsers, updateRole, allInstructors } = require('../controller/userController/userController');
+const { getAllClasses, addClasses, getInstructorClasses, updateInstructorClasses, deleteInstructorClasses, sendFeedback, updateStatus, singleInstructorClasses } = require('../controller/classesController/classesController');
 const verifyRole = require('../Middleware/verifyRole');
 const { selectedClassSave, getStudentSelectedClasses, deleteSelectedClass } = require('../controller/StudentController/selectedClass');
 const { paymentController, paymentSuccessful } = require('../controller/paymentController/paymentController');
@@ -19,13 +19,17 @@ router.get('/', (req, res) => {
 );
 
 
+// Public routes
+router.route('/classes').get(getAllClasses)
+router.route('/allinstructors').get(allInstructors)
+router.route('/singleInstructor').get(singleInstructorClasses)
+
+
 // Users routes
 router.route('/users').get(verifyToken, verifyRole('admin'), getAllUsers).post(addUser)
 
 router.route('/admin/users/:id').put(verifyToken, verifyRole('admin'), updateRole)
 
-// Users Classes
-router.route('/classes').get(getAllClasses)
 
 router.route('/myClasses')
   .get(verifyToken, verifyRole('instructor'), getInstructorClasses)

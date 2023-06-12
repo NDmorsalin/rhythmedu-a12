@@ -2,6 +2,7 @@ const { ObjectId } = require("mongodb");
 const {
     User
 } = require("../../Models/userModels/UserModels");
+const { Classes } = require("../../Models/ClassesModels/ClassesModels");
 
 //get all User
 const getAllUsers = async (req, res, next) => {
@@ -45,7 +46,7 @@ const updateRole = async (req, res, next) => {
     const { role } = req.body
     // console.log({ id, role });
     try {
-        const updatedInfo = await User.findOneAndUpdate({ _id:new ObjectId(id) }, { $set: { role } })
+        const updatedInfo = await User.findOneAndUpdate({ _id: new ObjectId(id) }, { $set: { role } })
         res.status(200).json(updatedInfo)
     } catch (error) {
         res.status(500).json({
@@ -55,8 +56,26 @@ const updateRole = async (req, res, next) => {
     }
 }
 
+const allInstructors = async (req, res, next) => {
+    try {
+        const instructors = await User.find({ role: 'instructor' }).toArray()
+        const classes = await Classes.find({status:'approved'}).toArray()
+        const instructorWithClasses = instructors.map(instructor => {
+            const instructorClasses = classes.filter(classes => classes.instructorEmail === instructor.email)
+            return { ...instructor, classes: instructorClasses }
+        })
+        res.status(200).json(instructorWithClasses)
+    } catch (error) {
+        res.status(500).json({
+            message: error.message,
+            error
+        })
+    }
+}
 
 module.exports = {
     getAllUsers,
-    addUser, updateRole
+    addUser,
+    updateRole,
+    allInstructors
 }

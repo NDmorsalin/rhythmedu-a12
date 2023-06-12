@@ -4,6 +4,7 @@ const {
 } = require("../../Models/ClassesModels/ClassesModels");
 const { StudentsSelectedClass } = require("../../Models/Students/StudentsSelectedClass");
 const { EnrolledClasses } = require("../../Models/Students/enrolledClasses");
+const { User } = require("../../Models/userModels/UserModels");
 
 //get all Classes
 const getAllClasses = async (req, res, next) => {
@@ -189,6 +190,57 @@ const sendFeedback = async (req, res, next) => {
     }
 }
 
+// single instructor classes
+const singleInstructorClasses = async (req, res, next) => {
+    const studentId = req.headers.studentid
+    const instructorId = req.headers.instructorid
+  
+
+    try {
+        const instructor = await User.findOne({ _id: new ObjectId(instructorId) })
+        const instructorClasses = await Classes.find({ instructorEmail: instructor.email, status: "approved" }).toArray()
+
+        if (studentId) {
+            const selectedClassOfThisStudent = await StudentsSelectedClass.find({ studentId }).toArray()
+
+            const paidClasses = await EnrolledClasses.find({ studentId }).toArray()
+
+            const instructorClassesWithStudentId = instructorClasses.map((singleClass) => {
+                const isThisClassSelected = selectedClassOfThisStudent.find((selectedClass) => selectedClass.classId === singleClass._id.toString())
+                const isPaidClass = paidClasses.find((paidClass) => paidClass.classId === singleClass._id.toString())
+
+                if (isThisClassSelected) {
+                    return {
+                        ...singleClass,
+
+                        isThisClassSelected: true
+                    }
+                }
+
+                if (isPaidClass) {
+                    return {
+                        ...singleClass,
+                        isPaid: true,
+                    }
+                }
+
+                return {
+                    ...singleClass,
+                }
+
+            })
+
+            res.status(200).json({ instructor, instructorClasses: instructorClassesWithStudentId })
+        } else {
+            res.status(200).json({ instructor, instructorClasses })
+        }
+    } catch (error) {
+        res.status(500).json({
+            message: error.message,
+            error
+        })
+    }
+}
 
 module.exports = {
     getAllClasses,
@@ -196,6 +248,7 @@ module.exports = {
     updateInstructorClasses,
     deleteInstructorClasses,
     updateStatus,
-    sendFeedback
+    sendFeedback,
+    singleInstructorClasses
 
 }
