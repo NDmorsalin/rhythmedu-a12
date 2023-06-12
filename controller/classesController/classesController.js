@@ -3,6 +3,7 @@ const {
     Classes
 } = require("../../Models/ClassesModels/ClassesModels");
 const { StudentsSelectedClass } = require("../../Models/Students/StudentsSelectedClass");
+const { EnrolledClasses } = require("../../Models/Students/enrolledClasses");
 
 //get all Classes
 const getAllClasses = async (req, res, next) => {
@@ -14,23 +15,32 @@ const getAllClasses = async (req, res, next) => {
 
             const allClasses = await Classes.find({}).toArray()
             const selectedClassOfThisStudent = await StudentsSelectedClass.find({ studentId }).toArray()
+            const paidClasses = await EnrolledClasses.find({ studentId }).toArray()
             const allClassesWithStudentId = allClasses.map((singleClass) => {
                 const isThisClassSelected = selectedClassOfThisStudent.find((selectedClass) => selectedClass.classId === singleClass._id.toString())
-                
+                const isPaidClass = paidClasses.find((paidClass) => paidClass.classId === singleClass._id.toString())
+
                 if (isThisClassSelected) {
                     return {
                         ...singleClass,
 
                         isThisClassSelected: true
                     }
-                } else {
+                }
+
+                if (isPaidClass) {
                     return {
                         ...singleClass,
-                        isThisClassSelected: false
+                        isPaid: true,
                     }
                 }
+
+                return {
+                    ...singleClass,
+                }
+
             })
-            
+
 
             res.status(201).json(allClassesWithStudentId)
         } else {
