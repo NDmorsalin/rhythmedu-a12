@@ -59,7 +59,7 @@ const updateRole = async (req, res, next) => {
 const allInstructors = async (req, res, next) => {
     try {
         const instructors = await User.find({ role: 'instructor' }).toArray()
-        const classes = await Classes.find({status:'approved'}).toArray()
+        const classes = await Classes.find({ status: 'approved' }).toArray()
         const instructorWithClasses = instructors.map(instructor => {
             const instructorClasses = classes.filter(classes => classes.instructorEmail === instructor.email)
             return { ...instructor, classes: instructorClasses }
@@ -73,9 +73,25 @@ const allInstructors = async (req, res, next) => {
     }
 }
 
+const getPopularInstructor = async (req, res, next) => {
+    try {
+
+        const instructors = await User.find({ role: 'instructor' }).sort({ "enrolledStudents": -1 }).limit(6).toArray();
+        // console.log({ instructors });
+        res.status(200).json(instructors)
+
+    } catch (error) {
+        res.status(500).json({
+            message: error.message,
+            error
+        })
+    }
+}
+
 module.exports = {
     getAllUsers,
     addUser,
     updateRole,
-    allInstructors
+    allInstructors,
+    getPopularInstructor
 }
