@@ -142,7 +142,7 @@ const updateInstructorClasses = async (req, res, next) => {
 // delete classes
 const deleteInstructorClasses = async (req, res, next) => {
     const { classId } = req.params
-    console.log({ classId });
+    // console.log({ classId });
     try {
         const deleteInfo = await Classes.deleteOne({ _id: new ObjectId(classId) })
         res.status(200).json(deleteInfo)
@@ -160,7 +160,7 @@ const deleteInstructorClasses = async (req, res, next) => {
 const updateStatus = async (req, res, next) => {
     const { status } = req.body
     const { id } = req.params
-    console.log({ id, status });
+    // console.log({ id, status });
     try {
         const updateInfo = await Classes.updateOne({ _id: new ObjectId(id) }, { $set: { status } })
         res.status(200).json(updateInfo)
@@ -177,7 +177,7 @@ const updateStatus = async (req, res, next) => {
 const sendFeedback = async (req, res, next) => {
     const { feedback } = req.body
     const { id } = req.params
-    console.log({ id, feedback });
+    // console.log({ id, feedback });
     try {
         const updateInfo = await Classes.updateOne({ _id: new ObjectId(id) }, { $set: { feedback } })
         res.status(200).json(updateInfo)
@@ -242,6 +242,21 @@ const singleInstructorClasses = async (req, res, next) => {
     }
 }
 
+// get popular classes
+const getPopularClasses = async (req, res, next) => {
+    try {
+        const popularClasses = await Classes.find({ status: "approved" }).sort({ enrolledStudents: -1 }).limit(6).toArray()
+        // console.log({ popularClasses });
+        res.status(200).json(popularClasses)
+    } catch (error) {
+        res.status(500).json({
+            message: error.message,
+            error
+        })
+    }
+}
+
+
 module.exports = {
     getAllClasses,
     addClasses, getInstructorClasses,
@@ -249,6 +264,7 @@ module.exports = {
     deleteInstructorClasses,
     updateStatus,
     sendFeedback,
-    singleInstructorClasses
+    singleInstructorClasses,
+    getPopularClasses
 
 }

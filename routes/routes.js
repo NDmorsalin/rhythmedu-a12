@@ -4,7 +4,7 @@ const {
 } = require('../controller/tokenController');
 const verifyToken = require('../Middleware/verifyJwt.js');
 const { addUser, getAllUsers, updateRole, allInstructors } = require('../controller/userController/userController');
-const { getAllClasses, addClasses, getInstructorClasses, updateInstructorClasses, deleteInstructorClasses, sendFeedback, updateStatus, singleInstructorClasses } = require('../controller/classesController/classesController');
+const { getAllClasses, addClasses, getInstructorClasses, updateInstructorClasses, deleteInstructorClasses, sendFeedback, updateStatus, singleInstructorClasses, getPopularClasses } = require('../controller/classesController/classesController');
 const verifyRole = require('../Middleware/verifyRole');
 const { selectedClassSave, getStudentSelectedClasses, deleteSelectedClass } = require('../controller/StudentController/selectedClass');
 const { paymentController, paymentSuccessful } = require('../controller/paymentController/paymentController');
@@ -23,6 +23,8 @@ router.get('/', (req, res) => {
 router.route('/classes').get(getAllClasses)
 router.route('/allinstructors').get(allInstructors)
 router.route('/singleInstructor').get(singleInstructorClasses)
+router.route('/popularclass').get(getPopularClasses)
+router.route('/popularinstructor').get(singleInstructorClasses)
 
 
 // Users routes
