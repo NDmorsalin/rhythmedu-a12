@@ -8,6 +8,7 @@ const { getAllClasses, addClasses, getInstructorClasses, updateInstructorClasses
 const verifyRole = require('../Middleware/verifyRole');
 const { selectedClassSave, getStudentSelectedClasses, deleteSelectedClass } = require('../controller/StudentController/selectedClass');
 const { paymentController, paymentSuccessful } = require('../controller/paymentController/paymentController');
+const { getEnrolledClasses } = require('../controller/StudentController/enrolledClass');
 
 const router = express.Router();
 
@@ -44,6 +45,8 @@ router.route('/students')
   .post(verifyToken, verifyRole('student'), selectedClassSave)
   .delete(verifyToken, verifyRole('student'), deleteSelectedClass)
 
+router.route('/enrolledclasses')
+  .get(verifyToken, verifyRole('student'), getEnrolledClasses)
 // create jwt
 router.route('/token').post(createToken)
 
