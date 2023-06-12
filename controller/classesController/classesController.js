@@ -13,7 +13,7 @@ const getAllClasses = async (req, res, next) => {
     try {
         if (studentId) {
 
-            const allClasses = await Classes.find({}).toArray()
+            const allClasses = await Classes.find({ status: "approved" }).toArray()
             const selectedClassOfThisStudent = await StudentsSelectedClass.find({ studentId }).toArray()
             const paidClasses = await EnrolledClasses.find({ studentId }).toArray()
             const allClassesWithStudentId = allClasses.map((singleClass) => {
@@ -44,7 +44,7 @@ const getAllClasses = async (req, res, next) => {
 
             res.status(201).json(allClassesWithStudentId)
         } else {
-            const allClasses = await Classes.find({}).toArray()
+            const allClasses = await Classes.find({ status: "approved" }).toArray()
             res.status(200).json(allClasses)
         }
     } catch (error) {
