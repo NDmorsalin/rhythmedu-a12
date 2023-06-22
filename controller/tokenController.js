@@ -14,7 +14,8 @@ const createToken = async (req, res, next) => {
     });
     // Set the token as a signed cookie
     res.cookie('token', token, {
-      httpOnly: true,
+      // httpOnly: true,
+      secure: true,
       expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000) //! 3 days
     });
     const user = await User.findOne({ email })
