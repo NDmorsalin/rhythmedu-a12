@@ -3,12 +3,37 @@ const {
   createToken
 } = require('../controller/tokenController');
 const verifyToken = require('../Middleware/verifyJwt.js');
-const { addUser, getAllUsers, updateRole, allInstructors, getPopularInstructor } = require('../controller/userController/userController');
-const { getAllClasses, addClasses, getInstructorClasses, updateInstructorClasses, deleteInstructorClasses, sendFeedback, updateStatus, singleInstructorClasses, getPopularClasses } = require('../controller/classesController/classesController');
+const {
+  addUser,
+  getAllUsers,
+  updateRole,
+  allInstructors,
+  getPopularInstructor
+} = require('../controller/userController/userController');
+const {
+  getAllClasses,adminClasses,
+  addClasses,
+  getInstructorClasses,
+  updateInstructorClasses,
+  deleteInstructorClasses,
+  sendFeedback,
+  updateStatus,
+  singleInstructorClasses,
+  getPopularClasses
+} = require('../controller/classesController/classesController');
 const verifyRole = require('../Middleware/verifyRole');
-const { selectedClassSave, getStudentSelectedClasses, deleteSelectedClass } = require('../controller/StudentController/selectedClass');
-const { paymentController, paymentSuccessful } = require('../controller/paymentController/paymentController');
-const { getEnrolledClasses } = require('../controller/StudentController/enrolledClass');
+const {
+  selectedClassSave,
+  getStudentSelectedClasses,
+  deleteSelectedClass
+} = require('../controller/StudentController/selectedClass');
+const {
+  paymentController,
+  paymentSuccessful
+} = require('../controller/paymentController/paymentController');
+const {
+  getEnrolledClasses
+} = require('../controller/StudentController/enrolledClass');
 
 const router = express.Router();
 
@@ -34,25 +59,27 @@ router.route('/admin/users/:id').put(verifyToken, verifyRole('admin'), updateRol
 
 
 router.route('/myClasses')
-  .get(verifyToken, verifyRole('instructor'), getInstructorClasses)
-  .post(verifyToken, verifyRole('instructor'), addClasses)
-  .put(verifyToken, verifyRole('instructor'), updateInstructorClasses)
+.get(verifyToken, verifyRole('instructor'), getInstructorClasses)
+.post(verifyToken, verifyRole('instructor'), addClasses)
+.put(verifyToken, verifyRole('instructor'), updateInstructorClasses)
 
 router.route('/myClasses/:classId').delete(verifyToken, verifyRole('instructor'), deleteInstructorClasses)
 
 // admin change class info
 router.route('/admin/classes/:id')
-  .put(verifyToken, verifyRole('admin'), sendFeedback)
-  .patch(verifyToken, verifyRole('admin'), updateStatus)
+.put(verifyToken, verifyRole('admin'), sendFeedback)
+.patch(verifyToken, verifyRole('admin'), updateStatus)
 
+router.route('/admin/classes')
+.get(verifyToken, verifyRole('admin'), adminClasses)
 // student routes
 router.route('/students')
-  .get(verifyToken, verifyRole('student'), getStudentSelectedClasses)
-  .post(verifyToken, verifyRole('student'), selectedClassSave)
-  .delete(verifyToken, verifyRole('student'), deleteSelectedClass)
+.get(verifyToken, verifyRole('student'), getStudentSelectedClasses)
+.post(verifyToken, verifyRole('student'), selectedClassSave)
+.delete(verifyToken, verifyRole('student'), deleteSelectedClass)
 
 router.route('/enrolledclasses')
-  .get(verifyToken, verifyRole('student'), getEnrolledClasses)
+.get(verifyToken, verifyRole('student'), getEnrolledClasses)
 // create jwt
 router.route('/token').post(createToken)
 

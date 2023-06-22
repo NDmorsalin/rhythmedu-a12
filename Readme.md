@@ -1,116 +1,58 @@
-# [KhelaGor](https://khelagor-1602a.web.app) Toy Marketplace Backend
+# Summer Camp Learning School Website
 
-This repository contains the backend code for the [KhelaGor](https://khelagor-1602a.web.app) Toy Marketplace website. It provides the server-side functionality for managing user accounts, product listings, orders, and other related features.
+![Logo](link_to_your_logo)
 
-## Getting Started
-
-To set up the backend locally, follow these steps:
-
-1. Clone the repository to your local machine:
-
-   ```
-   git clone git@github.com:programming-hero-web-course-4/b7a11-toy-marketplace-server-side-NDmorsalin.git
-   ```
-
-2. Install the necessary dependencies:
-
-   ```
-   cd b7a11-toy-marketplace-server-side-NDmorsalin
-   npm install
-   ```
-
-3. Set up the database:
-
-   - Create a MongoDB database instance and obtain the connection URL.
-   - Rename the `.env.example` file to `.env` and update the `MONGODB_URI` variable with your database connection URL.
-
-4. Start the server:
-   ```
-   npm start
-   ```
-
-The backend server should now be running locally on `http://localhost:5000`.
+A visually appealing and interactive website for a summer camp school that focuses on providing extracurricular activities in a specific domain.
 
 ## Features
 
-The [KhelaGor](https://khelagor-1602a.web.app) Toy Marketplace backend provides the following features:
-
-- User can crete a new toy
-- User can get all toys
-- User can get a single toy
-- User can update a toy
-- User can delete a toy
-- User can filter toys
-- User can search toys
-- API endpoints for interacting with the frontend
+- User-friendly interface with a visually pleasing design
+- Registration and login system with social login options
+- Responsive navbar and footer on all pages
+- Homepage with a top slider section, popular classes section, popular instructors section, and an extra section with attractive animations
+- Instructors page displaying all the instructors and their details
+- Classes page showcasing all the approved classes with relevant information
+- Student dashboard to manage selected and enrolled classes, make payments, and view payment history
+- Instructor dashboard to add classes, manage added classes, and view feedback
+- Admin dashboard to manage classes and users
+- Dark/light theme toggle option on the home page
+- Implementation of tanstack query for data fetching
+- Integration of Axios for API calls
+- Registration and login pages using React Hook Form
+- Use of environment variables on both client and server sides
+- JWT token-based authentication for login and registration systems
+- 404 page with an interesting image and a back-to-home button
+- Extra features and packages to enhance the website's functionality and attractiveness
 
 ## Technologies Used
 
-The backend is built using the following technologies and frameworks:
+- Front-end: React.js, HTML, CSS, JavaScript
+- Back-end: Node.js, Express.js
+- Database: MongoDB
+- Libraries/Tools: Framer Motion, React Hook Form, Axios, React Simple Typewriter, React Joyride, React Card Flip, React Image Zoom
 
-- Node.js: JavaScript runtime
-- Express.js: Web application framework
-- MongoDB: NoSQL database
-- JWT (JSON Web Tokens): Authentication mechanism
-- cors (Cross-Origin Resource Sharing): HTTP header for allowing cross-origin access
+## Installation
 
-## Deployment
+1. Clone the repository: `git clone https://github.com/programming-hero-web-course1/b7a12-summer-camp-server_side-NDmorsalin`
+2. Navigate to the project directory: `cd summer-camp-website`
+3. Install the dependencies: `npm install`
+4. Start the development server: `npm start`
+5. Open your browser and visit: `http://localhost:3000`
 
-To deploy an Express.js application on Vercel, you can follow these steps:
+## Live Demo
 
-1. Create an account on Vercel: Visit the Vercel website (https://vercel.com/) and create an account if you don't have one already.
+You can see a live demo of the Summer Camp Learning School Website [here](https://rhythmedu-d7728.web.app).
 
-2. Install Vercel CLI: Install the Vercel CLI globally by running the following command in your terminal:
+## Screenshots
 
-   ```
-   npm install -g vercel
-   ```
+Include some screenshots of your website to showcase its design and features.
 
-3. Build your Express.js application: Make sure your Express.js application is ready for deployment. Ensure that you have a `package.json` file with the necessary dependencies and a `start` script to run your application.
+## License
 
-4. Configure the deployment settings: Create a `vercel.json` file in the root directory of your project and add the following configuration:
+This project is licensed under the [MIT License](link_to_license).
 
-   ```json
-   {
-     "version": 2,
-     "builds": [
-       {
-         "src": "./index.js",
-         "use": "@vercel/node"
-       }
-     ],
-     "routes": [
-       {
-         "src": "/(.*)",
-         "dest": "/",
-         "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
-       }
-     ]
-   }
-   ```
+Feel free to explore and customize this Summer Camp Learning School Website to create a unique and engaging online platform for summer camp activities. Have fun coding!
 
-5. Test your application locally: Run your Express.js application locally to ensure it's working as expected by executing the command:
+If you have any questions or suggestions, feel free to contact us at [email@example.com].
 
-   ```
-   npm start
-   ```
 
-6. Login to Vercel CLI: Run the following command to authenticate with Vercel CLI and link your account:
-
-   ```
-   vercel login
-   ```
-
-7. Deploy your application: Run the deployment command to deploy your Express.js application to Vercel:
-
-   ```
-   vercel
-   ```
-
-8. Follow the prompts: Vercel CLI will guide you through the deployment process. It will ask for your permission to deploy, provide an option to set a name for your project, and may ask for other configuration details.
-
-9. Wait for deployment: Vercel will build and deploy your Express.js application. Once the deployment is complete, it will provide you with a unique URL for your application.
-
-10. Access your deployed application: Visit the URL provided by Vercel to access your deployed Express.js application.
-
-By following these steps, you should be able to successfully deploy your Express.js application on Vercel. Remember to adjust the configuration and deployment settings as per your specific application requirements.
